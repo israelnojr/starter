@@ -20,4 +20,15 @@ $fa-font-path: "../webfonts";
 @import "~admin-lte/dist/css/AdminLTE.css";
 @import "~admin-lte/dist/css/skins/_all-skins.css";
 
+.router-link-exact-active{
+   background-color: #367fa9; 
+   color: #fff;
+}
+
+
+.router-link-exact-active:hover{
+    background-color: #3490dc;
+ }
+ 
+
 

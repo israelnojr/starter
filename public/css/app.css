@@ -11024,7 +11024,7 @@ input[type=button].btn-block {
 
 .navbar-nav {
   display: flex;
-  /* flex-direction: column; */
+  flex-direction: column;
   padding-left: 0;
   margin-bottom: 0;
   list-style: none;
@@ -23133,5 +23133,14 @@ readers do not read off random characters that represent icons */
 .far {
   font-family: "Font Awesome 5 Free";
   font-weight: 400;
+}
+
+.router-link-exact-active {
+  background-color: #367fa9;
+  color: #fff;
+}
+
+.router-link-exact-active:hover {
+  background-color: #3490dc;
 }
 

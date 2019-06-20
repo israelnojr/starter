@@ -12,9 +12,16 @@
 */
 
 Route::get('/', function () {
-    return view('layouts.master');
+    return view('welcome');
 });
 
 Auth::routes();
 
-Route::get('/home', 'HomeController@index')->name('home');
+Route::get('/dashboard', 'HomeController@index')->name('dashboard');
+
+Route::get('{path}','HomeController@index')->where('path', '[A-Za-z]+'); 
+
+
+
+
+// Route::get('{path}','HomeController@index')->where( 'path', '([A-z\d-\/_.]+)?' ); 

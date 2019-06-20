@@ -6,22 +6,18 @@
   <title>Dashboard</title>
   <!-- Tell the browser to be responsive to screen width -->
   <meta content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no" name="viewport">
+  <meta name="csrf-token" content "{{csrf_token()}}" >
   <link rel="stylesheet" href="{{asset('css/app.css')}}">
   <!-- Google Font -->
   <link rel="stylesheet"href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:300,400,600,700,300italic,400italic,600italic">
-
-  <!-- <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous"> -->
-
-    <!-- Optional theme -->
-  <!-- <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap-theme.min.css" integrity="sha384-rHyoN1iRsVXV4nD0JutlnGaslCJuC7uwjduW9SVrLvRYooPp2bWYgmgJQIXwl/Sp" crossorigin="anonymous"> -->
 </head>
 <body class="hold-transition skin-blue sidebar-mini">
 <!-- Site wrapper -->
-<div class="wrapper">
+<div class="wrapper" id="app">
 
   <header class="main-header">
     <!-- Logo -->
-    <a href="../../index2.html" class="logo">
+    <a href="{{route('dashboard')}}" class="logo">
       <!-- mini logo for sidebar mini 50x50 pixels -->
       <span class="logo-mini"><b>Ad</b>min</span>
       <!-- logo for regular state and mobile devices -->
@@ -35,38 +31,42 @@
       </a>
 
       <div class="navbar-custom-menu">
-        <ul class="nav navbar-nav">
-          
-          <!-- User Account: style can be found in dropdown.less -->
-          <li class="dropdown user user-menu">
-            <a href="#" class="dropdown-toggle" data-toggle="dropdown">
-              <img src="{{asset('images/adminlte.jpg')}}" class="user-image" alt="User Image">
-              <span class="hidden-xs">{{Auth::user()->name}}</span>
-            </a>
-            <ul class="dropdown-menu">
-              <!-- User image -->
-              <li class="user-header">
-                <img src="{{asset('images/adminlte.jpg')}}" class="rounded-circle" alt="User Image">
+          <ul class="nav navbar-nav">           
+            <!-- User Account: style can be found in dropdown.less -->
+            <li class="dropdown user user-menu">
+              <a href="#" class="dropdown-toggle" data-toggle="dropdown">
+                <img src="{{asset('images/adminlte.jpg')}}" class="user-image" alt="User Image">
+                <span class="hidden-xs">{{Auth::user()->name}}</span>
+              </a>
+              <ul class="dropdown-menu" style="top: 34px;">
+                <!-- User image -->
+                <li class="user-header" style="margin-top: -1px;">
+                  <img src="{{asset('images/adminlte.jpg')}}" class="rounded-circle" alt="User Image">
 
-                <p>
-                  {{Auth::user()->name}} - Web Developer
-                  <small>Member since {{Auth::user()->created_at->toFormattedDateString()}}</small>
-                </p>
-              </li>
-             
-              <!-- Menu Footer-->
-              <li class="user-footer">
-                <div class="float-left">
-                  <a href="#" class="btn btn-default btn-flat">Profile</a>
-                </div>
-                <div class="float-right">
-                  <a href="#" class="btn btn-default btn-flat">Sign out</a>
-                </div>
-              </li>
-            </ul>
-          </li>
-    
-        </ul>
+                  <p>
+                    {{Auth::user()->name}} - Web Developer
+                    <small>Member since {{Auth::user()->created_at->toFormattedDateString()}}</small>
+                  </p>
+                </li>
+              
+                <!-- Menu Footer-->
+                <li class="user-footer">
+                  <div class="float-left">
+                    <router-link to="/profile" class="btn btn-default btn-flat">Profile</router-link>
+                  </div>
+                  <div class="float-right">
+                  <a class="btn btn-default btn-flat" href="{{ route('logout') }}"
+                       onclick="event.preventDefault();
+                              document.getElementById('logout-form').submit();">Sign out</a>
+                    <form id="logout-form" action="{{ route('logout') }}" method="POST" style="display: none;">
+                      @csrf
+                  </form>
+                  </div>
+                </li>
+              </ul>
+            </li>
+      
+          </ul>
       </div>
     </nav>
   </header>
@@ -89,6 +89,7 @@
       </div>
       <!-- search form -->
       <form action="#" method="get" class="sidebar-form">
+        @csrf
         <div class="input-group">
           <input type="text" name="q" class="form-control" placeholder="Search...">
           <span class="input-group-btn">
@@ -98,21 +99,34 @@
         </div>
       </form>
       <!-- /.search form -->
+
       <!-- sidebar menu: : style can be found in sidebar.less -->
       <ul class="sidebar-menu" data-widget="tree">
         <li class="header">MAIN NAVIGATION</li>
+        
+        <li class="">
+          <router-link to="/dashboard">
+            <i class="fa fa-th"></i> <span>Dashboard</span>
+              <span class="pull-right-container">
+              
+              </span>
+          </router-link>
+        </li>  
+        
         <li class="treeview">
           <a href="#">
-          <i class="fa fa-th"></i> <span>Dashboard</span>
-            <span class="pull-right-container">
-              <i class="fa fa-angle-left pull-right"></i>
-            </span>
+          <i class="fas fa-tasks"></i></i> <span>Management</span>
+              <span class="pull-right-container">
+                <i class="fa fa-angle-left pull-right"></i>
+              </span>
           </a>
           <ul class="treeview-menu">
-            <li><a href="../../index.html"><i class="far fa-circle-o"></i> Dashboard v1</a></li>
-            <li><a href="../../index2.html"><i class="far fa-circle-o"></i> Dashboard v2</a></li>
+            <li>
+              <router-link to="/users"><i class="fas fa-user-cog"></i> User </router-link>
+            </li>
+            
           </ul>
-        </li>        
+        </li>  
         
         <li>
           <a href="../mailbox/mailbox.html">
@@ -134,15 +148,17 @@
 
   <!-- Content Wrapper. Contains page content -->
   <div class="content-wrapper">
-    <!-- Content Header (Page header) -->
-    <section class="content-header">
-      
-    </section>
 
+    <!-- main content -->
+    <div class="content">
+      <div class="content-fluid">
+             
+        <router-view></router-view>
+        
+      </div>
+    </div>
+    <!-- end main content -->
     
-
-    </section>
-    <!-- /.content -->
   </div>
   <!-- /.content-wrapper -->
 
