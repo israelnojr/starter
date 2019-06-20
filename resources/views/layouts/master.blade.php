@@ -151,10 +151,9 @@
 
     <!-- main content -->
     <div class="content">
-      <div class="content-fluid">
-             
+      <div class="content-fluid">            
         <router-view></router-view>
-        
+        <vue-progress-bar></vue-progress-bar>       
       </div>
     </div>
     <!-- end main content -->

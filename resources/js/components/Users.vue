@@ -118,7 +118,14 @@
             },
 
             createUser(){
+                this.$Progress.start()
                 this.form.post('api/user')
+                $('#AddNew').modal('hide')
+                toast.fire({
+                type: 'success',
+                title: 'User Created Successfully'
+                })
+                this.$Progress.finish()
             }
         },
         created(){
