@@ -139,6 +139,15 @@
           </a>
         </li>
       
+        <li class="">
+          <router-link to="/developer">
+            <i class="fab fa-connectdevelop"></i> <span>Developer</span>
+              <span class="pull-right-container">
+              
+              </span>
+          </router-link>
+        </li> 
+
       </ul>
     </section>
     <!-- /.sidebar -->
@@ -165,7 +174,7 @@
     <div class="pull-right hidden-xs">
      
     </div>
-    <strong>Copyright &copy; 2014-2016 <a href=#">JuisDev</a>.</strong> All rights
+    <strong>Copyright &copy; 2014-2016 <a href="https://twitter.com/juisdev">JuisDev</a>.</strong> All rights
     reserved.
   </footer>
 
