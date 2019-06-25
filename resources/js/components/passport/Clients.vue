@@ -13,7 +13,7 @@
                         OAuth Clients
                     </span>
 
-                    <a class="action-link" tabindex="-1" @click="showCreateClientForm">
+                    <a class="action-link btn btn-primary" tabindex="-1" @click="showCreateClientForm">
                         Create New Client
                     </a>
                 </div>

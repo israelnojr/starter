@@ -27,7 +27,7 @@ class ProfileController extends Controller
     {
         //
     }
-
+    
     /**
      * Display the specified resource.
      *
@@ -38,6 +38,20 @@ class ProfileController extends Controller
     {
         //
     }
+
+    /**
+     * Display the specified resource.
+     *
+     * @param  int  $id
+     * @return \Illuminate\Http\Response
+     */
+    public function setting()
+    {
+        return auth('api')->user();
+        // $us = auth('api')->user();
+        // dd($us);
+    }
+
 
     /**
      * Update the specified resource in storage.

@@ -268,21 +268,21 @@
                         <label for="inputEmail" class="col-sm-2 control-label">Email</label>
 
                         <div class="col-sm-12">
-                          <input type="email" class="form-control" id="inputEmail" placeholder="Email">
+                          <input  type="email" class="form-control" v-model="form.email" id="inputEmail" placeholder="Email">
                         </div>
                       </div>
                       <div class="form-group">
                         <label for="inputName2" class="col-sm-2 control-label">Name</label>
 
                         <div class="col-sm-12">
-                          <input type="text" class="form-control" id="inputName2" placeholder="Name">
+                          <input  type="text" class="form-control" v-model="form.name" id="inputName2" placeholder="Name">
                         </div>
                       </div>
                       <div class="form-group">
-                        <label for="inputExperience" class="col-sm-2 control-label">Experience</label>
+                        <label for="inputExperience" class="col-sm-2 control-label">Description</label>
 
                         <div class="col-sm-12">
-                          <textarea class="form-control" id="inputExperience" placeholder="Experience"></textarea>
+                          <textarea  class="form-control" v-model="form.description" id="inputExperience" placeholder="Description"></textarea>
                         </div>
                       </div>
                       <div class="form-group">
@@ -292,7 +292,13 @@
                           <input type="file" class="form-control" id="inputSkills">
                         </div>
                       </div>
-                     
+                     <div class="form-group">
+                        <label for="inputPassword" class="col-sm-2 control-label">Password</label>
+
+                        <div class="col-sm-12">
+                          <input  type="password" v-model="form.password" class="form-control" id="inputPassword" placeholder="Password">
+                        </div>
+                      </div>
                       <div class="form-group">
                         <div class="col-sm-offset-2 col-sm-12">
                           <button type="submit" class="btn btn-success">Update</button>
@@ -311,9 +317,26 @@
 </template>
 
 <script>
+import Form from 'vform'
     export default {
+      data(){
+        return {
+          form: new Form({
+             user_id:'',
+              name : '',
+              email: '',
+              password: '',
+              description: '',
+              image: '',
+          })
+        }
+      },
         mounted() {
             console.log('Component mounted.')
-        }
+        },
+
+        created(){
+          axios.get("/api/profile").then(({ data }) => (this.form.fill(data)));
+        },
     }
 </script>
