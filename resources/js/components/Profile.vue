@@ -268,40 +268,49 @@
                         <label for="inputEmail" class="col-sm-2 control-label">Email</label>
 
                         <div class="col-sm-12">
-                          <input  type="email" class="form-control" v-model="form.email" id="inputEmail" placeholder="Email">
+                          <input  type="email" class="form-control" v-model="form.email" id="inputEmail" placeholder="Email"
+                          :class="{ 'is-invalid': form.errors.has('email') }">
+                            <has-error :form="form" field="email"></has-error>
                         </div>
                       </div>
                       <div class="form-group">
                         <label for="inputName2" class="col-sm-2 control-label">Name</label>
 
                         <div class="col-sm-12">
-                          <input  type="text" class="form-control" v-model="form.name" id="inputName2" placeholder="Name">
+                          <input  type="text" class="form-control" v-model="form.name" id="inputName2" placeholder="Name"
+                           :class="{ 'is-invalid': form.errors.has('name') }">
+                            <has-error :form="form" field="name"></has-error>
                         </div>
                       </div>
                       <div class="form-group">
                         <label for="inputExperience" class="col-sm-2 control-label">Description</label>
-
                         <div class="col-sm-12">
-                          <textarea  class="form-control" v-model="form.description" id="inputExperience" placeholder="Description"></textarea>
+                          <textarea  class="form-control" v-model="form.description" id="inputExperience" placeholder="Description"
+                           :class="{ 'is-invalid': form.errors.has('description') }">
+                            <has-error :form="form" field="description"></has-error></textarea>
                         </div>
+            
                       </div>
                       <div class="form-group">
                         <label for="inputSkills" class="col-sm-2 control-label">Profile Image</label>
 
                         <div class="col-sm-12">
-                          <input type="file" class="form-control" id="inputSkills">
+                          <input type="file" @change="updateProfile" name="image" class="form-control" id="inputSkills">
                         </div>
                       </div>
+
                      <div class="form-group">
-                        <label for="inputPassword" class="col-sm-2 control-label">Password</label>
+                        <label for="inputPassword" class="col-sm-12 control-label">Password <strong>(Leave password field blank if you not changing it )</strong></label>
 
                         <div class="col-sm-12">
-                          <input  type="password" v-model="form.password" class="form-control" id="inputPassword" placeholder="Password">
+                          <input  type="password" class="form-control" id="inputPassword" placeholder="Password"
+                             :class="{ 'is-invalid': form.errors.has('password') }">
+                            <has-error :form="form" field="password"></has-error>
                         </div>
                       </div>
                       <div class="form-group">
                         <div class="col-sm-offset-2 col-sm-12">
-                          <button type="submit" class="btn btn-success">Update</button>
+                          <button @click.prevent="updateInfo" type="submit" class="btn btn-success">Update</button>
                         </div>
                       </div>
                     </form>
@@ -334,7 +343,44 @@ import Form from 'vform'
         mounted() {
             console.log('Component mounted.')
         },
+        methods:{
+          updateInfo(){
+            this.$Progress.start()
+            this.form.put('api/profile')
+            .then(() => {
+              this.$Progress.finish()
+            })
 
+            .catch(() => {
+              this.$Progress.fail()
+            })
+          },
+
+          updateProfile(e){
+            let file = e.target.files[0];
+            console.log(file);
+            let reader = new FileReader();
+            
+            if(file['size'] < 2111775){
+                  reader.onloadend = (file) => {
+                  this.form.image = reader.result;
+                }
+                reader.readAsDataURL(file);
+              } else{
+                swal.fire(
+                    'Oops...',
+                    'You are uploading a large file',
+                    'error'
+                    )  
+              //   swal({
+              //     type: 'error',
+              //     title: 'Oops...',
+              //     text: 'You are uploading a large file',
+              // })
+              return false;
+              }
+            }
+        },
         created(){
           axios.get("/api/profile").then(({ data }) => (this.form.fill(data)));
         },

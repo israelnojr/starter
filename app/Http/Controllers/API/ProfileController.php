@@ -4,6 +4,8 @@ namespace App\Http\Controllers\API;
 
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
+use Illuminate\Support\Facades\Hash;
+use Intervention\Image\Facades\Image;
 
 class ProfileController extends Controller
 {
@@ -47,7 +49,7 @@ class ProfileController extends Controller
      */
     public function setting()
     {
-        return auth('api')->user();
+        return auth('api')->user()->profile;
         // $us = auth('api')->user();
         // dd($us);
     }
@@ -60,9 +62,31 @@ class ProfileController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, $id)
+    public function update(Request $request)
     {
-        //
+        $authUser =  auth('api')->user()->profile;
+
+        // $this->validate($request, [
+        //     'name' =>  ['required', 'string'],
+        //     'email' => [ 'required', 'email', 'unique:profiles,email,'.$authUser->id],
+        //     'description' =>  ['required', 'string', 'mix:250'],
+        //     'password'  => ['sometimes','string', 'min:6'],
+        // ]);
+
+        $currentImage = $authUser->image;
+        if($request->image != $currentImage){
+            $name = time().'.' . explode('/', explode(':', substr($request->image, 0, strpos($request->image, ';')))[1])[1];
+            Image::make($request->image)->save(public_path('images/profile/').$name);
+
+            $request->merge(['image' => $name]);
+        }
+        
+        if(!empty($request->password)){
+            $request->merge(['password' => Hash::make($request['password'])]);
+        }
+
+        $authUser->update($request->all());
+        return ['message', ' Profile Successful Updated'];
     }
 
     /**

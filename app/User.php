@@ -47,6 +47,7 @@ class User extends Authenticatable
                 'email' => $user->email,
                 'password' => $user->password,
                 'description' => "I'm ". $user->name,
+                'image' => "adminlte.jpg"
             ]);
 
         });

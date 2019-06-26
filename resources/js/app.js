@@ -14,7 +14,6 @@ const toast = swal.mixin({
 });
 
 //let Fire = new Vue(); //custom event
-
 window.Vue = require('vue');
 window.Form = Form;
 window.swal = swal;
